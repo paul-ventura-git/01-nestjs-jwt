@@ -9,6 +9,7 @@ import { SetMetadata } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { UsersService } from 'src/users/users.service';
+import { usersProviders } from '../users/users.providers';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
@@ -26,6 +27,7 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    ...usersProviders,
     AuthService,
     UsersService,
   ],

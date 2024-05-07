@@ -1,25 +1,40 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.entity';
 // This should be a real class/interface representing a user entity
-export type User = any;
+//export type User = any;
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  create(createUserDto: CreateUserDto): Promise<User> {
+    const user = new User();
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+
+    return this.usersRepository.save(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  findOne(id: number): Promise<User> {
+    return this.usersRepository.findOneBy({ id: id });
+  }
+
+  findByName(username: string): Promise<User> {
+    return this.usersRepository.findOneBy({ username: username });
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.usersRepository.delete(id);
   }
 }

@@ -6,11 +6,13 @@ import {
     UnauthorizedException,
   } from '@nestjs/common';
   import { JwtService } from '@nestjs/jwt';
-  import { jwtConstants } from './constants';
+  //import { jwtConstants } from './constants';
   import { Request } from 'express';
   import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.module';
-
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+dotenvExpand.expand(dotenv.config());
   @Injectable()
   export class AuthGuard implements CanActivate {
     constructor(private jwtService: JwtService, private reflector: Reflector) {}
@@ -32,7 +34,7 @@ import { IS_PUBLIC_KEY } from './auth.module';
       }
       try {
         const payload = await this.jwtService.verifyAsync(token, {
-          secret: jwtConstants.secret,
+          secret: process.env.SECRET_KEY,
         });
         // 💡 We're assigning the payload to the request object here
         // so that we can access it in our route handlers

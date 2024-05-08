@@ -5,10 +5,11 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PhotoModule } from './photo/photo.module';
-//import { TypeOrmModule } from '@nestjs/typeorm';
+import { EnvModule } from './env/env.module';
+
 
 @Module({
-  imports: [AuthModule, UsersModule, PhotoModule, 
+  imports: [AuthModule, UsersModule, PhotoModule, EnvModule, 
   ],
   controllers: [AppController],
   providers: [AppService],

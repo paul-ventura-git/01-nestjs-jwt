@@ -1,5 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { DataSource } from 'typeorm';
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+
+dotenvExpand.expand(dotenv.config());
 
 export const databaseProviders = [
   {
@@ -7,11 +11,11 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: '',
-        database: 'test',
+        host: process.env.DATASOURCE_HOST,
+        port: parseInt(process.env.DATASOURCE_PORT),
+        username: process.env.DATASOURCE_USERNAME,
+        password: process.env.DATASOURCE_PASSWORD,
+        database: process.env.DATASOURCE_DATABASE,
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
         ],

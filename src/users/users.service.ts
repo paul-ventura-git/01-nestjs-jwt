@@ -13,6 +13,7 @@ constructor(
 
   create(newUser: User): Promise<User> {
     const user = new User();
+    user.username = newUser.username;
     user.firstName = newUser.firstName;
     user.lastName = newUser.lastName;
     user.password = newUser.password;

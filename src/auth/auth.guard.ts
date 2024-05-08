@@ -6,7 +6,6 @@ import {
     UnauthorizedException,
   } from '@nestjs/common';
   import { JwtService } from '@nestjs/jwt';
-  //import { jwtConstants } from './constants';
   import { Request } from 'express';
   import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.module';

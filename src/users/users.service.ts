@@ -1,20 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
-//import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-//import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './users.entity';
-// This should be a real class/interface representing a user entity
-//export type User = any;
 
 @Injectable()
 export class UsersService {
-    /*
-  constructor(
-    @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
-  ) {}
-*/
+
 constructor(
     @Inject('USERS_REPOSITORY')
     private usersRepository: Repository<User>,
@@ -24,6 +15,8 @@ constructor(
     const user = new User();
     user.firstName = newUser.firstName;
     user.lastName = newUser.lastName;
+    user.password = newUser.password;
+    user.email = newUser.email;
 
     return this.usersRepository.save(user);
   }

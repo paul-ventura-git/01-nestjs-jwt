@@ -1,23 +1,29 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+//import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+//import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './users.entity';
 // This should be a real class/interface representing a user entity
 //export type User = any;
 
 @Injectable()
 export class UsersService {
+    /*
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+*/
+constructor(
+    @Inject('USERS_REPOSITORY')
+    private usersRepository: Repository<User>,
+  ) {}
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  create(newUser: User): Promise<User> {
     const user = new User();
-    user.firstName = createUserDto.firstName;
-    user.lastName = createUserDto.lastName;
+    user.firstName = newUser.firstName;
+    user.lastName = newUser.lastName;
 
     return this.usersRepository.save(user);
   }
@@ -34,7 +40,7 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username: username });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
 }

@@ -8,13 +8,16 @@ import { jwtConstants } from './constants';
 import { SetMetadata } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { UsersService } from 'src/users/users.service';
+//import { UsersService } from 'src/users/users.service';
 import { usersProviders } from '../users/users.providers';
+import { databaseProviders } from 'src/database/database.providers';
+import { DatabaseModule } from 'src/database/database.module';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 @Module({
   imports: [
+    DatabaseModule,
     UsersModule,
     JwtModule.register({
       global: true,
@@ -28,8 +31,9 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
       useClass: AuthGuard,
     },
     ...usersProviders,
+    ...databaseProviders,
     AuthService,
-    UsersService,
+    //UsersService,
   ],
   controllers: [AuthController],
   exports: [AuthService],

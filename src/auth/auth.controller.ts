@@ -27,4 +27,10 @@ import {
     getProfile(@Request() req) {
       return req.user;
     }
+
+    @UseGuards(AuthGuard)
+    @Get('users')
+    getUsers(@Request() req) {
+      return req.user;
+    }
   }

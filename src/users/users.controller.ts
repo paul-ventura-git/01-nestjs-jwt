@@ -8,7 +8,7 @@ import {
     Post,
     ParseIntPipe,
   } from '@nestjs/common';
-  import { CreateUserDto } from './dto/create-user.dto';
+  //import { CreateUserDto } from './dto/create-user.dto';
   import { User } from './users.entity';
   import { UsersService } from './users.service';
   
@@ -17,8 +17,8 @@ import {
     constructor(private readonly usersService: UsersService) {}
   
     @Post()
-    create(@Body() createUserDto: CreateUserDto): Promise<User> {
-      return this.usersService.create(createUserDto);
+    create(@Body() newUser: User): Promise<User> {
+      return this.usersService.create(newUser);
     }
   
     @Get()
@@ -32,7 +32,7 @@ import {
     }
   
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<void> {
+    remove(@Param('id') id: number): Promise<void> {
       return this.usersService.remove(id);
     }
   }
